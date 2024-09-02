@@ -1,6 +1,7 @@
 var express = require("express")
 var { createHandler } = require("graphql-http/lib/use/express")
 var { buildSchema } = require("graphql")
+var { ruruHTML } = require("ruru/server")
  
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
@@ -26,6 +27,11 @@ app.all(
     rootValue: root,
   })
 )
+
+app.get("/", (_req, res) => {
+  res.type("html")
+  res.end(ruruHTML({ endpoint: "/graphql" }))
+})
  
 // Start the server at port
 app.listen(4000)

@@ -1,7 +1,10 @@
-var dice = 3
-var sides = 6
-var query = /* GraphQL */`query RollDice($dice: Int!, $sides: Int) {
-  rollDice(numDice: $dice, numSides: $sides)
+var numRolls = 3
+var numSides = 6
+var query = /* GraphQL */`query getDieQ($numSides: Int, $numRolls: Int!) {
+  getDie(numSides: $numSides) {
+     rollOnce
+     roll(numRolls: $numRolls)
+    }
 }`
  
 fetch("http://localhost:4000/graphql", {
@@ -12,8 +15,8 @@ fetch("http://localhost:4000/graphql", {
   },
   body: JSON.stringify({
     query,
-    variables: { dice, sides },
+    variables: { numSides, numRolls },
   }),
 })
   .then(r => r.json())
-  .then(data => console.log("data returned:", data))
+  .then(data => console.log("data returned:", JSON.stringify(data)))
